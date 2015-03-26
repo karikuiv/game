@@ -1,0 +1,56 @@
+game\
+	Sprite.java - mostly unmodified VSGE implementation
+		Parent class for all sprite things.
+
+	HitMarker.java (Sprite)
+		Fades out through 4 images as time to live counts down.
+
+	Target.java (Sprite)
+		Parent class for all enemies.
+		setListener() & killMe() lets the target tell the Level to kill it.
+		setDying(ttl) sets the target to dying mode with ttl milliseconds until despawn.
+
+	BullseyeTarget.java (Target)
+		Plays through an animation when killed.
+
+	Level.java
+		Parent class for levels.
+		Each level handles their enemy updating and clean up however they like.
+		Contains the ArrayList where enemies are stored.
+		shoot() is called by Game when the player presses the mouse.
+			It combs through the list of enemies and kills them if necessary.
+			Also calculates distance from bullseye if in classic or steroids mode.
+		checkConflict() checks whether a sprite is inside any other sprite.
+
+	LevelClassic.java (Level)
+		Spawn up to 5 targets at 250 millisecond interval.
+		Try to survive for as long as possible.
+		Records some statistics.
+
+	LevelSteroids.java (Level)
+		Spawns up to 3 targets at 170 ms interval.
+		The player has a maximum of 1000 ms to live.
+		Each each kill replenishes it by 225 ms.
+states\
+	MainMenu.java
+		Level selector button cycles through available levels.
+		Start new game / exit game.
+
+	ScoreScreen.java
+		Shown after you lose.
+		Statistics such as hit locations and average accuracy (relative distance to bullseye).
+		Retry last game / exit to main menu.
+
+	Game.java
+		Main loop is processed in update().
+		reset() resets all level vars and is called when a new game is started.
+		kill() is called by a Level when an enemy's TTL runs out.
+ui\
+	Hud.java
+		Draws the hud using Graphics2D.drawString() method.
+
+	LevelSelectButton.java
+		Button that can be clicked through the stages displaying a different text and image for each.
+
+	PlayButton.java
+		Sets newGame to true so main loop knows to reset level parameters.
